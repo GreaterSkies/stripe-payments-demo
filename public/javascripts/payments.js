@@ -242,7 +242,7 @@
 
   // Listen to changes to the user-selected country.
   form
-    .querySelector('select[name=country]')
+    .querySelector('select[name=strp-country]')
     .addEventListener('change', event => {
       event.preventDefault();
       selectCountry(event.target.value);
@@ -253,18 +253,18 @@
     event.preventDefault();
 
     // Retrieve the user information from the form.
-    const payment = form.querySelector('input[name=payment]:checked').value;
-    const name = form.querySelector('input[name=name]').value;
-    const country = form.querySelector('select[name=country] option:checked')
+    const payment = form.querySelector('input[name=strp-payment]:checked').value;
+    const name = form.querySelector('input[name=strp-name]').value;
+    const country = form.querySelector('select[name=strp-country] option:checked')
       .value;
-    const email = form.querySelector('input[name=email]').value;
+    const email = form.querySelector('input[name=strp-email]').value;
     const shipping = {
       name,
       address: {
-        line1: form.querySelector('input[name=address]').value,
-        city: form.querySelector('input[name=city]').value,
-        postal_code: form.querySelector('input[name=postal_code]').value,
-        state: form.querySelector('input[name=state]').value,
+        line1: form.querySelector('input[name=strp-address]').value,
+        city: form.querySelector('input[name=strp-city]').value,
+        postal_code: form.querySelector('input[name=strp-postal_code]').value,
+        state: form.querySelector('input[name=strp-state]').value,
         country,
       },
     };
@@ -684,7 +684,7 @@
   };
 
   const selectCountry = country => {
-    const selector = document.getElementById('country');
+    const selector = document.getElementById('strp-country');
     selector.querySelector(`option[value=${country}]`).selected = 'selected';
     selector.className = `strp-field ${country}`;
 
@@ -696,7 +696,7 @@
   // Show only form fields that are relevant to the selected country.
   const showRelevantFormFields = country => {
     if (!country) {
-      country = form.querySelector('select[name=country] option:checked').value;
+      country = form.querySelector('select[name=strp-country] option:checked').value;
     }
     const zipLabel = form.querySelector('label.strp-zip');
     // Only show the state input for the United States.
@@ -709,9 +709,9 @@
   // Show only the payment methods that are relevant to the selected country.
   const showRelevantPaymentMethods = country => {
     if (!country) {
-      country = form.querySelector('select[name=country] option:checked').value;
+      country = form.querySelector('select[name=strp-country] option:checked').value;
     }
-    const paymentInputs = form.querySelectorAll('input[name=payment]');
+    const paymentInputs = form.querySelectorAll('input[name=strp-payment]');
     for (let i = 0; i < paymentInputs.length; i++) {
       let input = paymentInputs[i];
       input.parentElement.classList.toggle(
@@ -741,10 +741,10 @@
   };
 
   // Listen to changes to the payment method selector.
-  for (let input of document.querySelectorAll('input[name=payment]')) {
+  for (let input of document.querySelectorAll('input[name=strp-payment]')) {
     input.addEventListener('change', event => {
       event.preventDefault();
-      const payment = form.querySelector('input[name=payment]:checked').value;
+      const payment = form.querySelector('input[name=strp-payment]:checked').value;
       const flow = paymentMethods[payment].flow;
 
       // Update button label.
