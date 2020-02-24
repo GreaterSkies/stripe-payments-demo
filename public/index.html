@@ -16,47 +16,47 @@
 </head>
 
 <body>
-  <main id="main" class="loading">
-    <header class="header">
-      <a class="shop" href="/">Stripe Payments Demo</a>
+  <main id="strp-main" class="strp-loading">
+    <header class="strp-header">
+      <a class="strp-shop" href="/">Stripe Payments Demo</a>
       <a class="github" href="https://github.com/stripe/stripe-payments-demo">View on GitHub</a>
     </header>
-    <div id="checkout">
-      <div id="payment-request">
-        <div id="payment-request-button"></div>
+    <div id="strp-checkout">
+      <div id="strp-payment-request">
+        <div id="strp-payment-request-button"></div>
       </div>
-      <form id="payment-form" method="POST" action="/orders">
-        <p class="instruction"><span>Complete</span>/<span id="generate">generate</span> your shipping and payment details below</p>
+      <form id="strp-payment-form" method="POST" action="/orders">
+        <p class="strp-instruction"><span>Complete</span>/<span id="generate">generate</span> your shipping and payment details below</p>
         <section>
           <h2>Shipping &amp; Billing Information</h2>
-          <fieldset class="with-state">
+          <fieldset class="strp-with-state">
             <label>
               <span>Name</span>
-              <input name="name" class="field" placeholder="Jenny Rosen" required>
+              <input name="name" class="strp-field" placeholder="Jenny Rosen" required>
             </label>
             <label>
               <span>Email</span>
-              <input name="email" type="email" class="field" placeholder="jenny@example.com" required>
+              <input name="email" type="email" class="strp-field" placeholder="jenny@example.com" required>
             </label>
             <label>
               <span>Address</span>
-              <input name="address" class="field" placeholder="185 Berry Street Suite 550">
+              <input name="address" class="strp-field" placeholder="185 Berry Street Suite 550">
             </label>
             <label>
               <span>City</span>
-              <input name="city" class="field" placeholder="San Francisco">
+              <input name="city" class="strp-field" placeholder="San Francisco">
             </label>
-            <label class="state">
+            <label class="strp-state">
               <span>State</span>
-              <input name="state" class="field" placeholder="CA">
+              <input name="state" class="strp-field" placeholder="CA">
             </label>
-            <label class="zip">
+            <label class="strp-zip">
               <span>ZIP</span>
-              <input name="postal_code" class="field" placeholder="94107">
+              <input name="postal_code" class="strp-field" placeholder="94107">
             </label>
-            <label class="select">
+            <label class="strp-select">
               <span>Country</span>
-              <div id="country" class="field US">
+              <div id="country" class="strp-field US">
                 <select name="country">
                   <option value="AU">Australia</option>
                   <option value="AT">Austria</option>
@@ -89,11 +89,11 @@
               </div>
             </label>
           </fieldset>
-          <p class="tip">Select another country to see different payment options.</p>
+          <p class="strp-tip">Select another country to see different payment options.</p>
         </section>
         <section>
           <h2>Payment Information</h2>
-          <nav id="payment-methods">
+          <nav id="strp-payment-methods">
             <ul>
               <li>
                 <input type="radio" name="payment" id="payment-card" value="card" checked>
@@ -141,40 +141,40 @@
               </li>
             </ul>
           </nav>
-          <div class="payment-info card visible">
+          <div class="strp-payment-info card visible">
             <fieldset>
               <label>
                 <span>Card</span>
-                <div id="card-element" class="field"></div>
+                <div id="card-element" class="strp-field"></div>
               </label>
             </fieldset>
           </div>
-          <div class="payment-info sepa_debit">
+          <div class="strp-payment-info sepa_debit">
             <fieldset>
               <label>
                 <span>IBAN</span>
-                <div id="iban-element" class="field"></div>
+                <div id="iban-element" class="strp-field"></div>
               </label>
             </fieldset>
             <p class="notice">By providing your IBAN and confirming this payment, you’re authorizing Payments Demo and Stripe, our payment
               provider, to send instructions to your bank to debit your account. You’re entitled to a refund under the terms
               and conditions of your agreement with your bank.</p>
           </div>
-          <div class="payment-info ideal">
+          <div class="strp-payment-info ideal">
             <fieldset>
               <label>
                 <span>iDEAL Bank</span>
-                <div id="ideal-bank-element" class="field"></div>
+                <div id="ideal-bank-element" class="strp-field"></div>
               </label>
             </fieldset>
           </div>
-          <div class="payment-info redirect">
+          <div class="strp-payment-info redirect">
             <p class="notice">You’ll be redirected to the banking site to complete your payment.</p>
           </div>
-          <div class="payment-info receiver">
+          <div class="strp-payment-info receiver">
             <p class="notice">Payment information will be provided after you place the order.</p>
           </div>
-          <div class="payment-info wechat">
+          <div class="strp-payment-info wechat">
             <div id="wechat-qrcode"></div>
             <p class="notice">Click the button below to generate a QR code for WeChat.</p>
           </div>
@@ -184,31 +184,31 @@
       <div id="card-errors" class="element-errors"></div>
       <div id="iban-errors" class="element-errors"></div>
     </div>
-    <div id="confirmation">
-      <div class="status processing">
+    <div id="strp-confirmation">
+      <div class="strp-status strp-processing">
         <h1>Completing your order…</h1>
         <p>We’re just waiting for the confirmation from your bank… This might take a moment but feel free to close this page.</p>
         <p>We’ll send your receipt via email shortly.</p>
       </div>
-      <div class="status success">
+      <div class="strp-status strp-success">
         <h1>Thanks for your order!</h1>
         <p>Woot! You successfully made a payment with Stripe.</p>
-        <p class="note">We just sent your receipt to your email address, and your items will be on their way shortly.</p>
+        <p class="strp-note">We just sent your receipt to your email address, and your items will be on their way shortly.</p>
       </div>
-      <div class="status receiver">
+      <div class="strp-status receiver">
         <h1>Thanks! One last step!</h1>
         <p>Please make a payment using the details below to complete your order.</p>
         <div class="info"></div>
       </div>
-      <div class="status error">
+      <div class="strp-status error">
         <h1>Oops, payment failed.</h1>
         <p>It looks like your order could not be paid at this time. Please try again or select a different payment option.</p>
         <p class="error-message"></p>
       </div>
     </div>
   </main>
-  <aside id="summary">
-    <div class="header">
+  <aside id="strp-summary">
+    <div class="strp-header">
       <h1>Order Summary</h1>
     </div>
     <div id="order-items"></div>
@@ -224,8 +224,8 @@
       <div class="line-item demo">
         <div id="demo">
           <p class="label">Demo in test mode</p>
-          <p class="note">You can copy and paste the following test cards to trigger different scenarios:</p>
-          <table class="note">
+          <p class="strp-note">You can copy and paste the following test cards to trigger different scenarios:</p>
+          <table class="strp-note">
             <tr>
               <td>Default US card:</td>
               <td class="card-number">4242<span></span>4242<span></span>4242<span></span>4242</td>
@@ -235,8 +235,8 @@
               <td class="card-number">4000<span></span>0027<span></span>6000<span></span>3184</td>
             </tr>
             </table>
-          <p class="note"> 
-            See the <a href="https://stripe.com/docs/testing#cards" target="_blank">docs</a> for a full list of test cards. 
+          <p class="strp-note">
+            See the <a href="https://stripe.com/docs/testing#cards" target="_blank">docs</a> for a full list of test cards.
             Non-card payments will redirect to test pages.
           </p>
         </div>

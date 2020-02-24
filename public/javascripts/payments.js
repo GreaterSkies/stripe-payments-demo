@@ -18,7 +18,7 @@
   const config = await store.getConfig();
 
   // Create references to the main form and its submit button.
-  const form = document.getElementById('payment-form');
+  const form = document.getElementById('strp-payment-form');
   const submitButton = form.querySelector('button[type=submit]');
 
   // Global variable to store the PaymentIntent object.
@@ -222,11 +222,11 @@
   const paymentRequestSupport = await paymentRequest.canMakePayment();
   if (paymentRequestSupport) {
     // Display the Pay button by mounting the Element in the DOM.
-    paymentRequestButton.mount('#payment-request-button');
+    paymentRequestButton.mount('#strp-payment-request-button');
     // Replace the instruction.
-    document.querySelector('.instruction span').innerText = 'Or enter';
+    document.querySelector('.strp-instruction span').innerText = 'Or enter';
     // Show the payment request section.
-    document.getElementById('payment-request').classList.add('visible');
+    document.getElementById('strp-payment-request').classList.add('visible');
   }
 
   /**
@@ -357,34 +357,34 @@
   const handlePayment = paymentResponse => {
     const {paymentIntent, error} = paymentResponse;
 
-    const mainElement = document.getElementById('main');
-    const confirmationElement = document.getElementById('confirmation');
+    const mainElement = document.getElementById('strp-main');
+    const confirmationElement = document.getElementById('strp-confirmation');
 
     if (error) {
-      mainElement.classList.remove('processing');
+      mainElement.classList.remove('strp-processing');
       mainElement.classList.remove('receiver');
       confirmationElement.querySelector('.error-message').innerText =
         error.message;
       mainElement.classList.add('error');
     } else if (paymentIntent.status === 'succeeded') {
       // Success! Payment is confirmed. Update the interface to display the confirmation screen.
-      mainElement.classList.remove('processing');
+      mainElement.classList.remove('strp-processing');
       mainElement.classList.remove('receiver');
       // Update the note about receipt and shipping (the payment has been fully confirmed by the bank).
-      confirmationElement.querySelector('.note').innerText =
+      confirmationElement.querySelector('.strp-note').innerText =
         'We just sent your receipt to your email address, and your items will be on their way shortly.';
-      mainElement.classList.add('success');
+      mainElement.classList.add('strp-success');
     } else if (paymentIntent.status === 'processing') {
       // Success! Now waiting for payment confirmation. Update the interface to display the confirmation screen.
-      mainElement.classList.remove('processing');
+      mainElement.classList.remove('strp-processing');
       // Update the note about receipt and shipping (the payment is not yet confirmed by the bank).
-      confirmationElement.querySelector('.note').innerText =
+      confirmationElement.querySelector('.strp-note').innerText =
         'We’ll send your receipt and ship your items as soon as your payment is confirmed.';
-      mainElement.classList.add('success');
+      mainElement.classList.add('strp-success');
     } else {
       // Payment has failed.
-      mainElement.classList.remove('success');
-      mainElement.classList.remove('processing');
+      mainElement.classList.remove('strp-success');
+      mainElement.classList.remove('strp-processing');
       mainElement.classList.remove('receiver');
       mainElement.classList.add('error');
     }
@@ -392,8 +392,8 @@
 
   // Handle activation of payment sources not yet supported by PaymentIntents
   const handleSourceActiviation = source => {
-    const mainElement = document.getElementById('main');
-    const confirmationElement = document.getElementById('confirmation');
+    const mainElement = document.getElementById('strp-main');
+    const confirmationElement = document.getElementById('strp-confirmation');
     switch (source.flow) {
       case 'none':
         // Normally, sources with a `flow` value of `none` are chargeable right away,
@@ -409,7 +409,7 @@
             correctLevel: QRCode.CorrectLevel.H,
           });
           // Hide the previous text and update the call to action.
-          form.querySelector('.payment-info.wechat p').style.display = 'none';
+          form.querySelector('.strp-payment-info.wechat p').style.display = 'none';
           let amount = store.formatPrice(
             store.getPaymentTotal(),
             config.currency
@@ -431,7 +431,7 @@
         break;
       case 'receiver':
         // Display the receiver address to send the funds to.
-        mainElement.classList.add('success', 'receiver');
+        mainElement.classList.add('strp-success', 'receiver');
         const receiverInfo = confirmationElement.querySelector(
           '.receiver .info'
         );
@@ -533,10 +533,10 @@
   };
 
   const url = new URL(window.location.href);
-  const mainElement = document.getElementById('main');
+  const mainElement = document.getElementById('strp-main');
   if (url.searchParams.get('source') && url.searchParams.get('client_secret')) {
     // Update the interface to display the processing screen.
-    mainElement.classList.add('checkout', 'success', 'processing');
+    mainElement.classList.add('strp-checkout', 'strp-success', 'strp-processing');
 
     const {source} = await stripe.retrieveSource({
       id: url.searchParams.get('source'),
@@ -550,7 +550,7 @@
     pollPaymentIntentStatus(url.searchParams.get('payment_intent'));
   } else {
     // Update the interface to display the checkout form.
-    mainElement.classList.add('checkout');
+    mainElement.classList.add('strp-checkout');
 
     // Create the PaymentIntent with the cart details.
     const response = await store.createPaymentIntent(
@@ -559,7 +559,7 @@
     );
     paymentIntent = response.paymentIntent;
   }
-  document.getElementById('main').classList.remove('loading');
+  document.getElementById('strp-main').classList.remove('strp-loading');
 
   /**
    * Display the relevant payment methods for a selected country.
@@ -686,7 +686,7 @@
   const selectCountry = country => {
     const selector = document.getElementById('country');
     selector.querySelector(`option[value=${country}]`).selected = 'selected';
-    selector.className = `field ${country}`;
+    selector.className = `strp-field ${country}`;
 
     // Trigger the methods to show relevant fields and payment methods on page load.
     showRelevantFormFields();
@@ -698,11 +698,11 @@
     if (!country) {
       country = form.querySelector('select[name=country] option:checked').value;
     }
-    const zipLabel = form.querySelector('label.zip');
+    const zipLabel = form.querySelector('label.strp-zip');
     // Only show the state input for the United States.
-    zipLabel.parentElement.classList.toggle('with-state', country === 'US');
+    zipLabel.parentElement.classList.toggle('strp-with-state', country === 'US');
     // Update the ZIP label to make it more relevant for each country.
-    form.querySelector('label.zip span').innerText =
+    form.querySelector('label.strp-zip span').innerText =
       country === 'US' ? 'ZIP' : country === 'GB' ? 'Postcode' : 'Postal Code';
   };
 
@@ -724,7 +724,7 @@
     }
 
     // Hide the tabs if card is the only available option.
-    const paymentMethodsTabs = document.getElementById('payment-methods');
+    const paymentMethodsTabs = document.getElementById('strp-payment-methods');
     paymentMethodsTabs.classList.toggle(
       'visible',
       paymentMethodsTabs.querySelectorAll('li.visible').length > 1
@@ -732,11 +732,11 @@
 
     // Check the first payment option again.
     paymentInputs[0].checked = 'checked';
-    form.querySelector('.payment-info.card').classList.add('visible');
-    form.querySelector('.payment-info.ideal').classList.remove('visible');
-    form.querySelector('.payment-info.sepa_debit').classList.remove('visible');
-    form.querySelector('.payment-info.wechat').classList.remove('visible');
-    form.querySelector('.payment-info.redirect').classList.remove('visible');
+    form.querySelector('.strp-payment-info.card').classList.add('visible');
+    form.querySelector('.strp-payment-info.ideal').classList.remove('visible');
+    form.querySelector('.strp-payment-info.sepa_debit').classList.remove('visible');
+    form.querySelector('.strp-payment-info.wechat').classList.remove('visible');
+    form.querySelector('.strp-payment-info.redirect').classList.remove('visible');
     updateButtonLabel(paymentInputs[0].value);
   };
 
@@ -752,22 +752,22 @@
 
       // Show the relevant details, whether it's an extra element or extra information for the user.
       form
-        .querySelector('.payment-info.card')
+        .querySelector('.strp-payment-info.card')
         .classList.toggle('visible', payment === 'card');
       form
-        .querySelector('.payment-info.ideal')
+        .querySelector('.strp-payment-info.ideal')
         .classList.toggle('visible', payment === 'ideal');
       form
-        .querySelector('.payment-info.sepa_debit')
+        .querySelector('.strp-payment-info.sepa_debit')
         .classList.toggle('visible', payment === 'sepa_debit');
       form
-        .querySelector('.payment-info.wechat')
+        .querySelector('.strp-payment-info.wechat')
         .classList.toggle('visible', payment === 'wechat');
       form
-        .querySelector('.payment-info.redirect')
+        .querySelector('.strp-payment-info.redirect')
         .classList.toggle('visible', flow === 'redirect');
       form
-        .querySelector('.payment-info.receiver')
+        .querySelector('.strp-payment-info.receiver')
         .classList.toggle('visible', flow === 'receiver');
       document
         .getElementById('card-errors')
